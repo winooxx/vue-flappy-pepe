@@ -1,17 +1,15 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
-  </div>
+<template lang="pug">
+  #app
+    Canvas
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Canvas from './components/Canvas'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Canvas
   }
 }
 </script>
