@@ -12,6 +12,7 @@ const setCanvasSize = function () {
     canvas.width = 320
     canvas.height = 480
     canvas.style.border = '1px solid black'
+    this.$store.commit('mouseDown')
   } else {
     canvas.width = this.windowSize.width
     canvas.height = this.windowSize.height
@@ -45,6 +46,7 @@ export default {
     setWindowSize.call(this)
     setCanvasSize.call(this)
     drawCanvasBackground.call(this)
+    window.addEventListener(this.$store.event, this.$store.commit('onpress'))
     this.$nextTick(() => {
       window.addEventListener('resize', updateCanvas.bind(this))
     })

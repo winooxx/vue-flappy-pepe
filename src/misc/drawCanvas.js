@@ -8,7 +8,6 @@ export const drawCanvasBackground = function () {
     sprite.initSprites(graphics)
     ctx.fillStyle = sprite.screenBackground.color
     ctx.fillRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height)
-    console.log(ctx.fillStyle)
   }
 }
 

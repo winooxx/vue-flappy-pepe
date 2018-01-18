@@ -12,6 +12,20 @@ const store = new Vuex.Store({
     currentState: 0,
     event: 'touchstart',
     score: 0
+  },
+  mutations: {
+    onpress (state) {
+      switch (state.currentState) {
+        case state.stage.Splash:
+          state.currentState = state.stage.Game
+          break
+        case state.stage.Game:
+          break
+      }
+    },
+    mouseDown (state) {
+      state.event = 'mousedown'
+    }
   }
 })
 
