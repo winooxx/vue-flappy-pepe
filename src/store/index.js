@@ -9,7 +9,9 @@ const store = new Vuex.Store({
       Game: 1,
       Score: 2
     },
-    currentState: 0
+    currentState: 0,
+    event: 'touchstart',
+    score: 0
   }
 })
 

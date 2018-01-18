@@ -4,6 +4,8 @@
 
 <script>
 
+import { drawCanvasBackground } from '../misc/drawCanvas'
+
 const setCanvasSize = function () {
   const canvas = this.$refs.canvas
   if (this.windowSize.width >= 500) {
@@ -24,6 +26,11 @@ const setWindowSize = function () {
   }
 }
 
+const updateCanvas = function () {
+  setWindowSize.call(this)
+  drawCanvasBackground.call(this)
+}
+
 export default {
   name: 'Canvas',
   data: function () {
@@ -37,8 +44,9 @@ export default {
   mounted () {
     setWindowSize.call(this)
     setCanvasSize.call(this)
+    drawCanvasBackground.call(this)
     this.$nextTick(() => {
-      window.addEventListener('resize', setWindowSize.bind(this))
+      window.addEventListener('resize', updateCanvas.bind(this))
     })
   },
   watch: {
