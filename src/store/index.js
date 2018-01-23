@@ -11,7 +11,8 @@ const store = new Vuex.Store({
     },
     currentState: 0,
     event: 'touchstart',
-    score: 0
+    score: 0,
+    best: 0
   },
   mutations: {
     onpress (state) {
@@ -23,8 +24,12 @@ const store = new Vuex.Store({
           break
       }
     },
-    mouseDown (state) {
-      state.event = 'mousedown'
+    actionTrigger (state, action) {
+      if (action === 'pc') {
+        state.event = 'mousedown'
+      } else if (action === 'mobile') {
+        state.event = 'touchstart'
+      }
     }
   }
 })

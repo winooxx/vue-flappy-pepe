@@ -4,7 +4,7 @@
 
 <script>
 
-import { drawCanvasBackground } from '../misc/drawCanvas'
+import { drawCanvasBackground } from '../misc/draw-canvas'
 
 const setCanvasSize = function () {
   const canvas = this.$refs.canvas
@@ -12,11 +12,12 @@ const setCanvasSize = function () {
     canvas.width = 320
     canvas.height = 480
     canvas.style.border = '1px solid black'
-    this.$store.commit('mouseDown')
+    this.$store.commit('actionTrigger', 'pc')
   } else {
     canvas.width = this.windowSize.width
     canvas.height = this.windowSize.height
     canvas.style.border = ''
+    this.$store.commit('actionTrigger', 'mobile')
   }
 }
 
@@ -39,14 +40,15 @@ export default {
       windowSize: {
         width: 0,
         height: 0
-      }
+      },
+      foregroundPostions: 0,
+      frames: 0
     }
   },
   mounted () {
     setWindowSize.call(this)
     setCanvasSize.call(this)
     drawCanvasBackground.call(this)
-    window.addEventListener(this.$store.event, this.$store.commit('onpress'))
     this.$nextTick(() => {
       window.addEventListener('resize', updateCanvas.bind(this))
     })
