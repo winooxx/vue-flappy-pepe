@@ -10,18 +10,14 @@ const store = new Vuex.Store({
       Score: 2
     },
     currentState: 0,
-    event: 'touchstart',
-    score: 0,
-    best: 0
+    event: 'touchstart'
   },
   mutations: {
-    onpress (state) {
-      switch (state.currentState) {
-        case state.stage.Splash:
-          state.currentState = state.stage.Game
-          break
-        case state.stage.Game:
-          break
+    stageChange (state, stage) {
+      if (stage === 'Game') {
+        state.currentState = state.stage.Game
+      } else if (stage === 'Splash') {
+        state.currentState = state.stage.Splash
       }
     },
     actionTrigger (state, action) {

@@ -1,6 +1,8 @@
 import * as sprite from '../misc/sprite'
 import bird from './bird'
+import pipes from './pipes'
 
+export let okBtn = null
 export const drawCanvasBackground = function () {
   const canvas = this.$refs.canvas
   const ctx = canvas.getContext('2d')
@@ -9,6 +11,12 @@ export const drawCanvasBackground = function () {
   graphics.onload = () => {
     sprite.initSprites(graphics)
     ctx.fillStyle = sprite.screenBackground.color
+    okBtn = {
+      x: (canvas.width - sprite.screenButton.Ok.width) / 2,
+      y: canvas.height - 200,
+      width: sprite.screenButton.Ok.width,
+      height: sprite.screenButton.Ok.height
+    }
     run.call(this)
   }
 }
@@ -27,6 +35,13 @@ const update = function () {
   this.frames++
   if (state.currentState !== state.stage.Score) {
     this.foregroundPostions = (this.foregroundPostions - 2) % 14
+  } else {
+    let best = Math.max(this.best, this.score)
+    this.best = best
+    localStorage.setItem('best', best)
+  }
+  if (state.currentState === state.stage.Game) {
+    pipes.update(this)
   }
   bird.update(this)
 }
@@ -41,7 +56,7 @@ const render = function () {
   sprite.screenBackground.draw(ctx, 0, canvas.height - sprite.screenBackground.height)
   sprite.screenBackground.draw(ctx, sprite.screenBackground.width, canvas.height - sprite.screenBackground.height)
 
-  // pipes.draw(ctx)
+  pipes.draw(ctx)
   bird.draw(ctx)
 
   // Draw foreground sprites
@@ -55,15 +70,15 @@ const render = function () {
     sprite.screenText.GetReady.draw(ctx, centerWidth - sprite.screenText.GetReady.width / 2, canvas.height - 380)
   }
   if (state.currentState === state.stage.Game) {
-    sprite.screenNumberBest.draw(ctx, null, 20, state.score, centerWidth)
+    sprite.screenNumberBest.draw(ctx, null, 20, this.score, centerWidth)
   }
   if (state.currentState === state.stage.Score) {
-    // Draw game over scene0
+    // Draw game over scene
     sprite.screenText.GameOver.draw(ctx, centerWidth - sprite.screenText.GameOver.width / 2, canvas.height - 400)
     sprite.screenScore.draw(ctx, centerWidth - sprite.screenScore.width / 2, canvas.height - 340)
-    // sprite.screenButton.Ok.draw(ctx, okBtn.x, okBtn.y)
+    sprite.screenButton.Ok.draw(canvas.getContext('2d'), okBtn.x, okBtn.y)
     // Draw score on the scoreboard
-    sprite.screenNumberScore.draw(ctx, centerWidth - 47, canvas.height - 304, state.score, null, 10)
-    sprite.screenNumberScore.draw(ctx, centerWidth - 47, canvas.height - 262, state.best, null, 10)
+    sprite.screenNumberScore.draw(ctx, centerWidth - 47, canvas.height - 304, this.score, null, 10)
+    sprite.screenNumberScore.draw(ctx, centerWidth - 47, canvas.height - 262, this.best, null, 10)
   }
 }

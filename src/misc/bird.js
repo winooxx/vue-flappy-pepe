@@ -19,7 +19,9 @@ export default {
    * Makes the bird "flap" and jump
    */
   jump () {
+    // debugger
     this.velocity = -this._jump
+    console.log('velocity:' + this.velocity)
   },
 
   /**

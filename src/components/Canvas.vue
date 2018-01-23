@@ -1,10 +1,11 @@
 <template lang='pug'>
-  canvas(ref='canvas')
+  canvas(ref='canvas' v-on:mousedown='onpress' v-on:touchstart='onpress')
 </template>
 
 <script>
-
-import { drawCanvasBackground } from '../misc/draw-canvas'
+import { drawCanvasBackground, okBtn } from '../misc/draw-canvas'
+import bird from '../misc/bird'
+import pipes from '../misc/pipes'
 
 const setCanvasSize = function () {
   const canvas = this.$refs.canvas
@@ -42,7 +43,46 @@ export default {
         height: 0
       },
       foregroundPostions: 0,
-      frames: 0
+      frames: 0,
+      score: 0,
+      best: localStorage.getItem('best')
+    }
+  },
+  methods: {
+    onpress: function (event) {
+      console.log(event)
+      const state = this.$store.state
+      switch (state.currentState) {
+        case state.stage.Splash:
+          this.$store.commit('stageChange', 'Game')
+          bird.jump()
+          console.log('Splash')
+          break
+        case state.stage.Game:
+          bird.jump()
+          console.log('Game')
+          break
+        // change state if event within oKBtn bounding box
+        case state.stage.Score:
+          // get event position
+          let mx = event.offsetX
+          let my = event.offsetY
+
+          if (mx == null || my == null) {
+            mx = event.touches[0].clientX
+            my = event.touches[0].clientYzf
+          }
+
+          // check if within
+          if (okBtn.x < mx && mx < okBtn.x + okBtn.width &&
+            okBtn.y < my && my < okBtn.y + okBtn.height
+          ) {
+            pipes.reset()
+            this.$store.commit('stageChange', 'Splash')
+            this.score = 0
+          }
+          break
+      }
     }
   },
   mounted () {
@@ -52,6 +92,9 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', updateCanvas.bind(this))
     })
+    // console.log(this.best)
+  },
+  created () {
   },
   watch: {
     windowSize: function () {
