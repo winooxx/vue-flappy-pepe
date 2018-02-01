@@ -3,6 +3,7 @@ import bird from './bird'
 import pipes from './pipes'
 
 export let okBtn = null
+export let scoreBtn = null
 export const drawCanvasBackground = function () {
   const canvas = this.$refs.canvas
   const ctx = canvas.getContext('2d')
@@ -16,6 +17,12 @@ export const drawCanvasBackground = function () {
       y: canvas.height - 200,
       width: sprite.screenButton.Ok.width,
       height: sprite.screenButton.Ok.height
+    }
+    scoreBtn = {
+      x: (canvas.width - sprite.screenButton.Score.width) / 2,
+      y: canvas.height - 150,
+      width: sprite.screenButton.Score.width,
+      height: sprite.screenButton.Score.height
     }
     run.call(this)
   }
@@ -77,6 +84,7 @@ const render = function () {
     sprite.screenText.GameOver.draw(ctx, centerWidth - sprite.screenText.GameOver.width / 2, canvas.height - 400)
     sprite.screenScore.draw(ctx, centerWidth - sprite.screenScore.width / 2, canvas.height - 340)
     sprite.screenButton.Ok.draw(canvas.getContext('2d'), okBtn.x, okBtn.y)
+    sprite.screenButton.Score.draw(canvas.getContext('2d'), scoreBtn.x, scoreBtn.y)
     // Draw score on the scoreboard
     sprite.screenNumberScore.draw(ctx, centerWidth - 47, canvas.height - 304, this.score, null, 10)
     sprite.screenNumberScore.draw(ctx, centerWidth - 47, canvas.height - 262, this.best, null, 10)

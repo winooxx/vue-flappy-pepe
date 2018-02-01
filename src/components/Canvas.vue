@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { drawCanvasBackground, okBtn } from '../misc/draw-canvas'
+import { drawCanvasBackground, okBtn, scoreBtn } from '../misc/draw-canvas'
 import bird from '../misc/bird'
 import pipes from '../misc/pipes'
 
@@ -81,6 +81,12 @@ export default {
             this.$store.commit('stageChange', 'Splash')
             this.score = 0
           }
+
+          if (scoreBtn.x < mx && mx < scoreBtn.x + scoreBtn.width &&
+            scoreBtn.y < my && my < scoreBtn.y + scoreBtn.height
+          ) {
+            this.$router.push({path: 'score'})
+          }
           break
       }
     }
@@ -113,4 +119,5 @@ canvas
   bottom 0
   left 0
   right 0
+  z-index -1
 </style>

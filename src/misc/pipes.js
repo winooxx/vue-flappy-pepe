@@ -1,5 +1,7 @@
 import * as sprite from './sprite'
 import bird from './bird'
+import AV from 'leancloud-storage'
+
 export default {
 
   _pipes: [],
@@ -49,6 +51,10 @@ export default {
         const r = bird.radius * bird.radius
         // determine intersection
         if (r > d1 || r > d2) {
+          const FlappyPepeScore = AV.Object.extend('FlappyPepeScore')
+          const flappypepe = new FlappyPepeScore()
+          flappypepe.set('score', ctx.score)
+          flappypepe.save()
           state.currentState = state.stage.Score
         }
       }
